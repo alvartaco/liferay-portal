@@ -109,6 +109,11 @@ public class MySQLDB extends BaseDB {
 	}
 
 	@Override
+	public String getCharacterSet(Connection connection) {
+		return "";
+	}
+
+	@Override
 	public List<Index> getIndexes(Connection connection) throws SQLException {
 		List<Index> indexes = new ArrayList<>();
 
@@ -167,6 +172,11 @@ public class MySQLDB extends BaseDB {
 
 	protected MySQLDB(DBType dbType, int majorVersion, int minorVersion) {
 		super(dbType, majorVersion, minorVersion);
+	}
+
+	@Override
+	public boolean isSupportsCharacterSet(Connection connection) {
+		return false;
 	}
 
 	@Override
@@ -287,6 +297,11 @@ public class MySQLDB extends BaseDB {
 
 			return sb.toString();
 		}
+	}
+
+	@Override
+	public boolean isUseUnicodeSupport(Connection connection) {
+		return false;
 	}
 
 	private static final String[] _MYSQL = {

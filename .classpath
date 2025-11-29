@@ -90,6 +90,7 @@
 	<classpathentry kind="lib" path="lib/development/mockito-inline.jar"/>
 	<classpathentry kind="lib" path="lib/development/mysql.jar"/>
 	<classpathentry kind="lib" path="lib/development/objenesis.jar"/>
+	<classpathentry kind="lib" path="lib/development/ojdbc11.jar"/>
 	<classpathentry kind="lib" path="lib/development/osgi-annotation-versioning.jar"/>
 	<classpathentry kind="lib" path="lib/development/osgi-core.jar"/>
 	<classpathentry kind="lib" path="lib/development/osgi-service-cm.jar"/>

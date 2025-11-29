@@ -55,9 +55,11 @@
 		<java
 			classname="com.liferay.portal.tools.DBBuilder"
 			classpathref="db.builder.classpath"
-			failonerror="true"
+			failonerror="false"
 			fork="true"
 			outputproperty="db.builder.output"
+			errorproperty="db.builder.error"
+			resultproperty="db.builder.result"
 		>
 			<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 			<jvmarg if:set="db.build.java.add.opens" line="${db.build.java.add.opens}" />
@@ -68,6 +70,23 @@
 			<arg value="db.database.types=${database.types}" />
 			<arg value="db.sql.dir=${db.sql.dir}" />
 		</java>
+
+		<if>
+			<not>
+				<equals arg1="${db.builder.result}" arg2="0" />
+			</not>
+			<then>
+				<echo file="log/db.builder.error.log" message="${db.builder.error}" />
+				<fail>
+DBBuilder failed.
+Output:
+${db.builder.output}
+
+Error:
+${db.builder.error}
+				</fail>
+			</then>
+		</if>
 
 		<move
 			todir="${db.sql.dir}"

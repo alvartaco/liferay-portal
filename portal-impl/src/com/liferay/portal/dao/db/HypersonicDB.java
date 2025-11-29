@@ -54,6 +54,16 @@ public class HypersonicDB extends BaseDB {
 	}
 
 	@Override
+	public String getCharacterSet(Connection connection) {
+		return "";
+	}
+
+	@Override
+	public boolean isSupportsCharacterSet(Connection connection) {
+		return false;
+	}
+
+	@Override
 	public String getPopulateSQL(String databaseName, String sqlContent) {
 		return StringPool.BLANK;
 	}
@@ -322,6 +332,11 @@ public class HypersonicDB extends BaseDB {
 
 			return sb.toString();
 		}
+	}
+
+	@Override
+	public boolean isUseUnicodeSupport(Connection connection) {
+		return false;
 	}
 
 	private static final String[] _HYPERSONIC = {

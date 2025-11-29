@@ -52,9 +52,7 @@ public class DBManagerImpl implements DBManager {
 		ServiceLoader<DBFactory> serviceLoader = ServiceLoader.load(
 			DBFactory.class, DBManagerImpl.class.getClassLoader());
 
-		for (DBFactory dbFactory : serviceLoader) {
-			_dbFactories.put(dbFactory.getDBType(), dbFactory);
-		}
+		_dbFactories.put(DBType.ORACLE, new OracleDBFactory());
 	}
 
 	@Override
@@ -83,11 +81,14 @@ public class DBManagerImpl implements DBManager {
 
 	@Override
 	public DB getDB(DBType dbType, DataSource dataSource) {
-		DBFactory dbCreator = _dbFactories.get(dbType);
+
+		DBType _dbType = DBType.ORACLE;
+
+		DBFactory dbCreator = _dbFactories.get(_dbType);
 
 		if (dbCreator == null) {
 			throw new IllegalArgumentException(
-				"Unsupported database type " + dbType);
+				"Unsupported database type " + _dbType);
 		}
 
 		if (dataSource == null) {

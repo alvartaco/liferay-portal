@@ -81,6 +81,11 @@ public class PostgreSQLDB extends BaseDB {
 	}
 
 	@Override
+	public String getCharacterSet(Connection connection) {
+		return "";
+	}
+
+	@Override
 	public List<Index> getIndexes(Connection connection) throws SQLException {
 		List<Index> indexes = new ArrayList<>();
 
@@ -142,6 +147,11 @@ public class PostgreSQLDB extends BaseDB {
 
 	@Override
 	public boolean isSupportsQueryingAfterException() {
+		return false;
+	}
+
+	@Override
+	public boolean isSupportsCharacterSet(Connection connection) {
 		return false;
 	}
 
@@ -454,6 +464,11 @@ public class PostgreSQLDB extends BaseDB {
 
 			return sb.toString();
 		}
+	}
+
+	@Override
+	public boolean isUseUnicodeSupport(Connection connection) {
+		return false;
 	}
 
 	private void _createTrigger(

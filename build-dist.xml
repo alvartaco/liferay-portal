@@ -2954,7 +2954,7 @@ plugins.includes=</echo>
 		>
 			<zipfileset
 				dir="lib/development"
-				includes="hsql.jar"
+				includes="ojdbc11.jar"
 				prefix="liferay-portal-dependencies-${lp.version}"
 			/>
 		</zip>
