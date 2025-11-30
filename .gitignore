@@ -90,7 +90,6 @@
 /portal-web/*.iws
 /portal-web/ROOT.war
 /portal-web/build
-/portal-web/poshi-ext.properties
 /portal-web/classes
 /portal-web/docroot/WEB-INF/classes
 /portal-web/docroot/WEB-INF/lib
@@ -197,3 +196,7 @@
 /workspaces/node_modules
 _sass_cache_*.css
 poshi-warnings.xml
+
+.idea/
+
+

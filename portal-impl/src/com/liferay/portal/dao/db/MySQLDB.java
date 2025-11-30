@@ -109,6 +109,11 @@ public class MySQLDB extends BaseDB {
 	}
 
 	@Override
+	public String getCharacterSet(Connection connection) {
+		return "";
+	}
+
+	@Override
 	public List<Index> getIndexes(Connection connection) throws SQLException {
 		List<Index> indexes = new ArrayList<>();
 
@@ -167,6 +172,11 @@ public class MySQLDB extends BaseDB {
 
 	protected MySQLDB(DBType dbType, int majorVersion, int minorVersion) {
 		super(dbType, majorVersion, minorVersion);
+	}
+
+	@Override
+	public boolean isSupportsCharacterSet(Connection connection) {
+		return false;
 	}
 
 	@Override
@@ -289,6 +299,11 @@ public class MySQLDB extends BaseDB {
 		}
 	}
 
+	@Override
+	public boolean isUseUnicodeSupport(Connection connection) {
+		return false;
+	}
+
 	private static final String[] _MYSQL = {
 		"##", "1", "0", "'1970-01-01'", "now()", " longblob", " longblob",
 		" decimal(30, 16)", " tinyint", " datetime(6)", " double", " integer",
@@ -299,7 +314,7 @@ public class MySQLDB extends BaseDB {
 	private static final int[] _SQL_TYPES = {
 		Types.LONGVARBINARY, Types.LONGVARBINARY, Types.DECIMAL, Types.TINYINT,
 		Types.TIMESTAMP, Types.DOUBLE, Types.INTEGER, Types.BIGINT,
-		Types.LONGVARCHAR, Types.LONGVARCHAR, Types.VARCHAR
+		Types.LONGVARCHAR, Types.LONGVARCHAR, Types.VARCHAR, Types.INTEGER
 	};
 
 }

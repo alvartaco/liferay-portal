@@ -81,6 +81,11 @@ public class PostgreSQLDB extends BaseDB {
 	}
 
 	@Override
+	public String getCharacterSet(Connection connection) {
+		return "";
+	}
+
+	@Override
 	public List<Index> getIndexes(Connection connection) throws SQLException {
 		List<Index> indexes = new ArrayList<>();
 
@@ -142,6 +147,11 @@ public class PostgreSQLDB extends BaseDB {
 
 	@Override
 	public boolean isSupportsQueryingAfterException() {
+		return false;
+	}
+
+	@Override
+	public boolean isSupportsCharacterSet(Connection connection) {
 		return false;
 	}
 
@@ -456,6 +466,11 @@ public class PostgreSQLDB extends BaseDB {
 		}
 	}
 
+	@Override
+	public boolean isUseUnicodeSupport(Connection connection) {
+		return false;
+	}
+
 	private void _createTrigger(
 			Connection connection, String tableName, String triggerEvent,
 			String triggerName)
@@ -495,7 +510,7 @@ public class PostgreSQLDB extends BaseDB {
 	private static final int[] _SQL_TYPES = {
 		Types.BIGINT, Types.BINARY, Types.NUMERIC, Types.BIT, Types.TIMESTAMP,
 		Types.DOUBLE, Types.INTEGER, Types.BIGINT, Types.VARCHAR, Types.VARCHAR,
-		Types.VARCHAR
+		Types.VARCHAR, Types.INTEGER
 	};
 
 	private static final Pattern _oidPattern = Pattern.compile(

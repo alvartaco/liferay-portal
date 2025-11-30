@@ -350,6 +350,8 @@ public abstract class BaseDB implements DB {
 		return StringUtil.trim(columnDef);
 	}
 
+	public abstract String getCharacterSet(Connection connection);
+
 	@Override
 	public List<Index> getIndexes(Connection connection) throws SQLException {
 		return TransformUtil.transform(
@@ -953,7 +955,7 @@ public abstract class BaseDB implements DB {
 			_templates.put(TEMPLATE[i], actual[i]);
 		}
 
-		String[] templateTypes = ArrayUtil.clone(TEMPLATE, 5, 16);
+		String[] templateTypes = ArrayUtil.clone(TEMPLATE, 5, 17);
 
 		for (int i = 0; i < templateTypes.length; i++) {
 			String actualType = StringUtil.trim(
@@ -1047,6 +1049,8 @@ public abstract class BaseDB implements DB {
 			matcher.group(4), defaultValue, StringUtil.toLowerCase(nullable)
 		};
 	}
+
+	public abstract boolean isSupportsCharacterSet(Connection connection);
 
 	protected String[] buildColumnTypeTokens(String line) {
 		Matcher matcher = _alterColumnTypePattern.matcher(line);
@@ -1696,6 +1700,8 @@ public abstract class BaseDB implements DB {
 	private final Map<String, Integer> _sqlTypeSizes = new HashMap<>();
 	private boolean _supportsStringCaseSensitiveQuery = true;
 	private final Map<String, String> _templates = new HashMap<>();
+
+	public abstract boolean isUseUnicodeSupport(Connection connection);
 
 	private static class PrimaryKey {
 

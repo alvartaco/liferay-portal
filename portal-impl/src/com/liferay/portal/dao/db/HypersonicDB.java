@@ -54,6 +54,16 @@ public class HypersonicDB extends BaseDB {
 	}
 
 	@Override
+	public String getCharacterSet(Connection connection) {
+		return "";
+	}
+
+	@Override
+	public boolean isSupportsCharacterSet(Connection connection) {
+		return false;
+	}
+
+	@Override
 	public String getPopulateSQL(String databaseName, String sqlContent) {
 		return StringPool.BLANK;
 	}
@@ -324,6 +334,11 @@ public class HypersonicDB extends BaseDB {
 		}
 	}
 
+	@Override
+	public boolean isUseUnicodeSupport(Connection connection) {
+		return false;
+	}
+
 	private static final String[] _HYPERSONIC = {
 		"//", "true", "false", "'1970-01-01 00:00:00'", "now()", " blob",
 		" blob", " decimal(30, 16)", " bit", " timestamp", " double", " int",
@@ -333,7 +348,7 @@ public class HypersonicDB extends BaseDB {
 	private static final int[] _SQL_TYPES = {
 		Types.BLOB, Types.BLOB, Types.DECIMAL, Types.BIT, Types.TIMESTAMP,
 		Types.DOUBLE, Types.INTEGER, Types.BIGINT, Types.VARCHAR, Types.VARCHAR,
-		Types.VARCHAR
+		Types.VARCHAR, Types.INTEGER
 	};
 
 }
