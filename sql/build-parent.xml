@@ -57,8 +57,8 @@
 			classpathref="db.builder.classpath"
 			failonerror="true"
 			fork="true"
-			outputproperty="db.builder.output"
 		>
+			<jvmarg value="-verbose:class" />
 			<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 			<jvmarg if:set="db.build.java.add.opens" line="${db.build.java.add.opens}" />
 			<jvmarg value="-Xmx${db.build.java.mx}" />
@@ -68,6 +68,8 @@
 			<arg value="db.database.types=${database.types}" />
 			<arg value="db.sql.dir=${db.sql.dir}" />
 		</java>
+
+		<!-- Removed outputproperty and errorproperty to show full output in console -->
 
 		<move
 			todir="${db.sql.dir}"
@@ -84,7 +86,8 @@
 			/>
 		</move>
 
-		<echo>${db.builder.output}</echo>
+		<!-- Removed echo of output and error properties -->
+		<fail if:set="db.builder.error">Error durante build-db: ${db.builder.error}</fail>
 	</target>
 
 	<target name="clean">
