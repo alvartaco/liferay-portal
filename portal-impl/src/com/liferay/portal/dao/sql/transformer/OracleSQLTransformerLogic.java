@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.function.Function;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Manuel de la Peña
@@ -29,7 +30,8 @@ public class OracleSQLTransformerLogic extends BaseSQLTransformerLogic {
 			getCastTextFunction(), getConcatFunction(),
 			getDropTableIfExistsTextFunction(), getIntegerDivisionFunction(),
 			getNullDateFunction(), _getEscapeFunction(),
-			_getNotEqualsBlankStringFunction()
+			_getNotEqualsBlankStringFunction(), _getOrderByClobFunction(),
+			_getPushNotificationsDeviceTokenIndexFunction()
 		};
 
 		if (!db.isSupportsStringCaseSensitiveQuery()) {
@@ -81,6 +83,51 @@ public class OracleSQLTransformerLogic extends BaseSQLTransformerLogic {
 	private Function<String, String> _getNotEqualsBlankStringFunction() {
 		return (String sql) -> StringUtil.replace(
 			sql, " != ''", " IS NOT NULL");
+	}
+
+	private Function<String, String> _getOrderByClobFunction() {
+		return (sql) -> {
+			int orderByPos = sql.indexOf("ORDER BY");
+
+			if (orderByPos == -1) {
+				return sql;
+			}
+
+			String orderByClause = sql.substring(orderByPos);
+
+			Pattern pattern = Pattern.compile(
+				"(\\w+\\.(?:name|description|title|value))");
+
+			Matcher matcher = pattern.matcher(orderByClause);
+
+			StringBuffer sb = new StringBuffer();
+
+			while (matcher.find()) {
+				matcher.appendReplacement(
+					sb, "DBMS_LOB.SUBSTR(" + matcher.group(0) + ", 2000)");
+			}
+
+			matcher.appendTail(sb);
+
+			return sql.substring(0, orderByPos) + sb.toString();
+		};
+	}
+
+	private Function<String, String> _getPushNotificationsDeviceTokenIndexFunction() {
+		return (sql) -> {
+			if (!sql.contains("PushNotificationsDevice")) {
+				return sql;
+			}
+
+			Pattern pattern = Pattern.compile(
+				"CREATE UNIQUE INDEX (\\w+) ON PushNotificationsDevice\\s*\\(token\\[\\$COLUMN_LENGTH:\\d+\\$\\]\\)",
+				Pattern.CASE_INSENSITIVE);
+
+			Matcher matcher = pattern.matcher(sql);
+
+			return matcher.replaceAll(
+				"CREATE UNIQUE INDEX $1 ON PushNotificationsDevice (DBMS_LOB.SUBSTR(token, 512, 1))");
+		};
 	}
 
 }

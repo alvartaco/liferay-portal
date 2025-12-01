@@ -173,7 +173,8 @@ public class DBManagerImpl implements DBManager {
 		}
 
 		if (dialect instanceof Oracle8iDialect ||
-			dialect instanceof Oracle9Dialect) {
+			dialect instanceof Oracle9Dialect ||
+			dialect.getClass().getName().contains("Oracle")) {
 
 			return DBType.ORACLE;
 		}
